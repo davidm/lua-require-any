@@ -1,6 +1,6 @@
 LUA MODULE
 
-  requireany v$(_VERSION) - require any one of the listed modules
+  requireany v$(_VERSION) - `require` any one of the listed modules.
 
 SYNOPSIS
   

@@ -1,7 +1,7 @@
--- requireany.lua
- -- (c) 2011 David Manura.  Licensed under the same terms as Lua 5.1 (MIT license).
+-- requireany.lua -- see README
+-- (c) 2011-2012 David Manura.  Licensed under Lua 5.1 terms (MIT license).
  
- local M = {_TYPE='module', _NAME='requireany', _VERSION='0.1.1.20120406'}
+local M = {_TYPE='module', _NAME='requireany', _VERSION='0.1.1.20120406'}
 
 function M.requireany(...)
   local errs = {}
