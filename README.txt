@@ -1,5 +1,3 @@
---[[ FILE README.txt
-
 LUA MODULE
 
   requireany v$(_VERSION) - require any one of the listed modules
@@ -41,21 +39,23 @@ API
  
 HOME PAGE
 
-  https://raw.github.com/gist/1414923
+  https://github.com/davidm/lua-require-any
 
 DOWNLOAD/INSTALL
 
-  If using LuaRocks:
-    luarocks install lua-requireany
+  To install using LuaRocks:
+  
+    luarocks install requireany
 
-  Download <https://raw.github.com/gist/1414923/requireany.lua>.
-  Alternately, if using git:
-    git clone git://gist.github.com/1414923.git lua-requireany
-    cd lua-requireany
-  Optionally unpack and install in LuaRocks:
-    Download <https://raw.github.com/gist/1422205/sourceunpack.lua>.
-    lua sourceunpack.lua requireany.lua
-    cd out && luarocks make *.rockspec
+  Otherwise download <https://github.com/davidm/lua-require-any>.
+
+  You may just copy requireany.lua into your LUA_PATH.
+
+  Otherwise:
+    
+      make test
+      make install  (or make install-local)  -- to install in LuaRocks
+      make remove  (or make remove-local) -- to remove from LuaRocks
  
 DEPENDENCIES
 
@@ -63,7 +63,7 @@ DEPENDENCIES
   
 LICENSE
 
-  (c) 2008-2011 David Manura.  Licensed under the same terms as Lua (MIT).
+  (c) 2008-2012 David Manura.  Licensed under the same terms as Lua (MIT).
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -84,74 +84,4 @@ LICENSE
   THE SOFTWARE.
   (end license)
  
- --]]---------------------------------------------------------------------
-
- -- requireany.lua
- -- (c) 2011 David Manura.  Licensed under the same terms as Lua 5.1 (MIT license).
  
- local M = {_TYPE='module', _NAME='requireany', _VERSION='0.1.20111203'}
-
-function M.requireany(...)
-  local errs = {}
-  for i = 1, select('#', ...) do local name = select(i, ...)
-    if type(name) ~= 'string' then return name, nil end
-    local ok, mod = pcall(require, name)
-    if ok then return mod, name end
-    errs[#errs+1] = mod
-  end
-  error(table.concat(errs, '\n'), 2)
-end
-
-setmetatable(M, {__call = function(_, ...) return M.requireany(...) end})
-
-return M
-
-
---[[ FILE lua-requireany-$(_VERSION)-1.rockspec
-
-package = 'lua-requireany'
-version = '$(_VERSION)-1'
-source = {
-  url = 'https://raw.github.com/gist/1414923/$(GITID)/requireany.lua',
-  --url = 'https://raw.github.com/gist/1414923/requireany.lua', -- latest raw
-  --url = 'https://gist.github.com/gists/1414923/download', -- latest archive
-  md5 = '$(MD5)'
-}
-description = {
-  summary = 'require any one of the listed modules.',
-  detailed =
-    'require any one of the listed modules.',
-  license = 'MIT/X11',
-  homepage = 'https://gist.github.com/1414923',
-  maintainer = 'David Manura'
-}
-dependencies = {}
-build = {
-  type = 'builtin',
-  modules = {
-    ['requireany'] = 'requireany.lua'
-  }
-}
-
---]]---------------------------------------------------------------------
-
-
---[[ FILE test.lua
-
-
-local function checkeq(a, b, e)
-  if a ~= b then error(
-    'not equal ['..tostring(a)..'] ['..tostring(b)..'] ['..tostring(e)..']', 2)
-  end
-end
-
-assert(not pcall(require 'requireany')) -- zero args
-checkeq(require 'requireany' ('_G'), _G)
-checkeq(require 'requireany' ('nonexist1', 'os'), os)
-checkeq(require 'requireany' ('nonexist1', os), os)
-checkeq(require 'requireany' ('nonexist1', nil), nil)
-assert(not pcall(require 'requireany', 'nonexist1', 'nonexist2'))
-
-print 'OK'
-
---]]---------------------------------------------------------------------

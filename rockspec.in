@@ -1,0 +1,23 @@
+package = 'require-any'
+version = '$(_VERSION)-1'
+source = {
+  url = 'git://github.com/davidm/lua-require-any.git',
+}
+description = {
+  summary = 'requires any one of the listed modules.',
+  detailed =
+    'requires any one of the listed modules.',
+  license = 'MIT/X11',
+  homepage = 'https://github.com/davidm/lua-require-any',
+  maintainer = 'David Manura'
+}
+dependencies = {}
+build = {
+  type = 'builtin',
+  modules = {
+    ['requireany'] = 'lua/requireany.lua'
+  }
+}
+-- VERSIONFROM="lua/requireany.lua"
+-- ROCKVERSION="1"
+-- ROCKSCMVERSION="1"
